@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sprockets'
 require 'msgpack'
+require 'pry'
 
 # Serve scripts and stylesheets using sprockets
 set :assets, Sprockets::Environment.new
@@ -13,15 +14,17 @@ end
 
 post '/json' do
   headers['Content-Type'] = 'application/json'
-  puts params
-  puts JSON.generate(params)
-  JSON.generate(params)
+  request.body.string
 end
 
 post '/message-pack' do
-  headers['Content-Type'] = 'application/message-pack'
-  msgpack.decode(params)
-  msgpack.encode(params)
+  # headers['Content-Type'] = 'application/message-pack'
+  # content_type 'application/message-pack'
+  # binding.pry
+  content_type 'application/octet-stream'
+  message = MessagePack.unpack(request.body.string)
+  MessagePack.pack(message)
+  # message.to_msgpack
 end
 
 post '/protocol-buffers' do
