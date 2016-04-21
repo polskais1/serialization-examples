@@ -1,7 +1,11 @@
 require 'sinatra'
 require 'sprockets'
 require 'msgpack'
+require 'beefcake'
+
 require 'pry'
+
+include Beefcake::Message
 
 # Serve scripts and stylesheets using sprockets
 set :assets, Sprockets::Environment.new
@@ -28,7 +32,7 @@ post '/message-pack' do
 end
 
 post '/protocol-buffers' do
-  JSON.generate(params)
+
 end
 
 post '/flat-buffers' do
